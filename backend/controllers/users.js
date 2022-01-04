@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const bcrypt = require('bcryptjs');
 
 const ERROR_INVALIDE_INPUT = 400;
 const ERROR_USER_NOT_FOUND = 404;
@@ -26,9 +25,8 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar, email, password } = req.body;
-  bcrypt.hash(password, 10)
-    .then(hash => User.create({ name, about, avatar, email, password: hash }))
+  const { name, about, avatar } = req.body;
+  User.create({ name, about, avatar })
     .then(() => res.status(200).send({ message: 'user created' }))
     .catch((err) => {
       if (err.name === 'ValidationError') return res.status(ERROR_INVALIDE_INPUT).send({ message: err.message });
@@ -65,19 +63,5 @@ module.exports.updateAvatar = (req, res) => {
       if (err.name === 'UserIdNotFound') return res.status(ERROR_USER_NOT_FOUND).send({ message: err.message });
       if (err.name === 'ValidationError') return res.status(ERROR_INVALIDE_INPUT).send({ message: err.message });
       res.status(ERROR_DEFAULT).send({ message: err.message })
-    });
-};
-
-module.exports.login = (req, res) => {
-  const { email, password } = req.body;
-
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      res.send({
-        token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' })
-      });
-    })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
     });
 };

@@ -1,15 +1,13 @@
 const Card = require('../models/card');
-const AuthorizationError = require('../errors/authorizationError');
-const NotFoundError = require('../errors/notFoundError');
 
 const ERROR_INVALIDE_INPUT = 400;
 const ERROR_CARD_NOT_FOUND = 404;
 const ERROR_DEFAULT = 500;
 
-module.exports.getCards = (req, res, next) => {
+module.exports.getCards = (req, res) => {
   Card.find({})
     .then(cards => res.status(200).send(cards))
-    .catch(next);
+    .catch((err) => res.status(ERROR_DEFAULT).send({ message: err.message }));
 };
 
 module.exports.createCard = (req, res) => {

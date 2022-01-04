@@ -1,7 +1,0 @@
-.element__favorite {
-    cursor: pointer;
-}
-
-.element__favorite:hover {
-    opacity: 0.5;
-}   

@@ -6,18 +6,22 @@ const usersRouter = require('./routes/users');
 
 const mongoose = require('mongoose');
 
-const { createUser, login } = require('./controllers/users');
-
 const { PORT = 3000 } = process.env;
 
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-app.use(helmet());
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.use((req, res, next) => {
+  req.user = {
+    _id: '61bc7b20725a26b2225f19f4' // paste the _id of the test user created in the previous step
+  };
+
+  next();
+});
+
+app.use(helmet());
 
 app.use('/', cardsRouter, usersRouter);
 

@@ -29,8 +29,6 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "mongoose": "^6.1.2",
-    "validator": "^13.7.0",
-    "bcryptjs": "^2.4.3",
-    "celebrate": "^15.0.0"
+    "validator": "^13.7.0"
   }
 }
