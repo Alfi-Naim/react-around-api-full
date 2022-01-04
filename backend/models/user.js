@@ -22,6 +22,20 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 30,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    validate: {
+      validator(email) {
+        return validator.isEmail(email);
+      },
+    },
+  },
+  password: {
+    type: String,
+    required: true
   }
 });
 
