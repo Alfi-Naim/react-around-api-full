@@ -1,66 +1,75 @@
 const Card = require('../models/card');
 
-const ERROR_INVALIDE_INPUT = 400;
-const ERROR_CARD_NOT_FOUND = 404;
-const ERROR_DEFAULT = 500;
+const NotFoundError = require('../errors/notFoundError'); //404
+const BadRequestError = require('../errors/badRequestError'); //400
+const ForbiddenError = require('../errors/forbiddenError'); //403
 
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then(cards => res.status(200).send(cards))
-    .catch((err) => res.status(ERROR_DEFAULT).send({ message: err.message }));
+    .catch(next);
 };
 
-module.exports.createCard = (req, res) => {
+module.exports.createCard = (req, res, next) => {
   const { name, link, owner = req.user._id } = req.body;
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send(card))
-    .catch((err) => {
-      if (err.name === 'ValidationError') return res.status(ERROR_INVALIDE_INPUT).send({ message: err.message });
-      res.status(ERROR_DEFAULT).send({ message: err.message })
-    });
-};
-
-module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
-    .orFail(() => {
-      const error = new Error('No card found with that id');
-      error.name = 'CardIdNotFound'
-      throw error;
+    .then((card) => {
+      if (!card) {
+        throw new ForbiddenError('Invalid input');
+      }
+      res.status(200).send(card);
     })
-    .then(() => res.status(200).send({ message: 'card deleted' }))
-    .catch((err) => {
-      if (err.name === 'CastError') return res.status(ERROR_INVALIDE_INPUT).send({ message: err.message });
-      if (err.name === 'CardIdNotFound') return res.status(ERROR_CARD_NOT_FOUND).send({ message: err.message });
-      res.status(ERROR_DEFAULT).send({ message: err.message })
-    });
+    .catch(next);
 };
 
-module.exports.likeCard = (req, res) => {
+module.exports.deleteCard = (req, res, next) => {
+  const ownerId = req.user._id;
+  Card.findById(req.params.cardId)
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('card not found');
+      }
+      else if (card.owner._id !== ownerId) {
+        throw new ForbiddenError('Requested resource is forbidden');
+      }
+      Card.deleteOne({ _id: req.params.cardId })
+        .then(() => {
+          res.status(200).send({ message: 'card deleted' })
+        })
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') throw new BadRequestError('Bad request')
+      next(err)
+    })
+    .catch(next);
+};
+
+module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
-    .orFail(() => {
-      const error = new Error('No card found with that id');
-      error.name = 'CardIdNotFound'
-      throw error;
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('card not found');
+      }
+      res.status(200).send(card);
     })
-    .then((card) => res.status(200).send(card))
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(ERROR_INVALIDE_INPUT).send({ message: err.message });
-      if (err.name === 'CardIdNotFound') return res.status(ERROR_CARD_NOT_FOUND).send({ message: err.message });
-      res.status(ERROR_DEFAULT).send({ message: err.message })
-    });
+      if (err.name === 'CastError') throw new BadRequestError('Bad request')
+      next(err)
+    })
+    .catch(next);
 };
 
-module.exports.unlikeCard = (req, res) => {
+module.exports.unlikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
-    .orFail(() => {
-      const error = new Error('No card found with that id');
-      error.name = 'CardIdNotFound'
-      throw error;
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('card not found');
+      }
+      res.status(200).send(card);
     })
-    .then((card) => res.status(200).send(card))
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(ERROR_INVALIDE_INPUT).send({ message: err.message });
-      if (err.name === 'CardIdNotFound') return res.status(ERROR_CARD_NOT_FOUND).send({ message: err.message });
-      res.status(ERROR_DEFAULT).send({ message: err.message })
-    });
+      if (err.name === 'CastError') throw new BadRequestError('Bad request')
+      next(err)
+    })
+    .catch(next);
 };

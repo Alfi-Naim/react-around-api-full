@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const validator = require ('validator');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Jacques Cousteau'
   },
   avatar: {
     type: String,
@@ -15,13 +16,13 @@ const userSchema = new mongoose.Schema({
         return validator.isURL(link);
       },
     },
-    required: true
+    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
   },
   about: {
     type: String,
-    required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Explorer'
   },
   email: {
     type: String,
@@ -31,12 +32,31 @@ const userSchema = new mongoose.Schema({
       validator(email) {
         return validator.isEmail(email);
       },
+      message: 'Wrong email format',
     },
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   }
 });
+
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        console.log("user not exists");
+        return Promise.reject(new Error('Incorrect password or email'));
+      }
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new Error('Incorrect password or email'));
+          }
+          return user;
+        });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);
