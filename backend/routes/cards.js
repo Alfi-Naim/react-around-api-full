@@ -4,6 +4,8 @@ const { celebrate, Joi } = require('celebrate');
 const { getCards, deleteCard, createCard, likeCard, unlikeCard } = require('../controllers/cards');
 
 const validateURL = (value, helpers) => {
+  console.log(value);
+  console.log("!" + validator.isURL(value));
   if (validator.isURL(value)) {
     return value;
   }
