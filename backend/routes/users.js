@@ -26,10 +26,6 @@ usersRouter.patch('/users/me', celebrate({
   }),
 }), updateUser);
 
-usersRouter.patch('/users/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().required().custom(validateURL),
-  }),
-}), updateAvatar);
+usersRouter.patch('/users/me/avatar', updateAvatar);
 
 module.exports = usersRouter;
