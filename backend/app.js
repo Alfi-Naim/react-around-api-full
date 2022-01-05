@@ -16,8 +16,9 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/aroundb');
-
+mongoose.connect('mongodb://localhost:27017/aroundb', {
+  useNewUrlParser: true,
+});
 
 var cors = require('cors');
 
