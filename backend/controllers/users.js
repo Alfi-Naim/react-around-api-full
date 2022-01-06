@@ -84,8 +84,6 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(NODE_ENV);
-      console.log(JWT_SECRET);
       if (!user) {
         throw new BadRequestError('Bad request');
       }

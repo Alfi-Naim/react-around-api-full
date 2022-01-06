@@ -13,8 +13,6 @@ const NotFoundError = require('./errors/notFoundError');
 const mongoose = require('mongoose');
 
 require('dotenv').config();
-console.log(process.env.NODE_ENV); // production
-console.log(process.env.JWT_SECRET); // production
 
 const { PORT = 3000 } = process.env;
 
