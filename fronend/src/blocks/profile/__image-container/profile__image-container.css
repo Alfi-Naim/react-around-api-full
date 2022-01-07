@@ -1,0 +1,12 @@
+.profile__image-container {
+    position: relative;
+    margin-top: 40px;
+}
+
+.profile__image-container:hover .profile__pen {
+    display: block;
+}
+
+.profile__image-container:hover .profile__image {
+    opacity: 0.2;
+}
