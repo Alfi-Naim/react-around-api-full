@@ -38,7 +38,7 @@ module.exports.deleteCard = (req, res, next) => {
         throw new NotFoundError('card not found');
       }
       else if (card.owner !== ownerId) {
-        throw new ForbiddenError('Requested resource is forbidden');
+        throw new ForbiddenError('Requested resource is forbidden ' + card.owner + " , " + ownerId + " , " + card + " , " + req.user);
       }
       Card.deleteOne({ _id: req.params.cardId })
         .then(() => {
