@@ -23,17 +23,9 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  console.log(req);
-  console.log(req.params);
-  console.log(req.params.cardId);
-  console.log(req.user);
-  console.log(req.user.id);
   const ownerId = req.user._id;
   Card.findById(req.params.cardId)
     .then((card) => {
-      console.log(card);
-      console.log(card.owner);
-      console.log(card.owner._id);
       if (!card) {
         throw new NotFoundError('card not found');
       }
