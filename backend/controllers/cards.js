@@ -1,12 +1,12 @@
 const Card = require('../models/card');
 
-const NotFoundError = require('../errors/notFoundError'); //404
-const BadRequestError = require('../errors/badRequestError'); //400
-const ForbiddenError = require('../errors/forbiddenError'); //403
+const NotFoundError = require('../errors/notFoundError');
+const BadRequestError = require('../errors/badRequestError');
+const ForbiddenError = require('../errors/forbiddenError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then(cards => res.status(200).send(cards))
+    .then((cards) => res.status(200).send(cards))
     .catch(next);
 };
 
@@ -28,18 +28,17 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('card not found');
-      }
-      else if (card.owner.toString() !== ownerId) {
-        throw new ForbiddenError('Requested resource is forbidden ' + card.owner + " , " + ownerId + " , " + card + " , " + req.user);
+      } else if (card.owner.toString() !== ownerId) {
+        throw new ForbiddenError('Requested resource is forbidden');
       }
       Card.deleteOne({ _id: req.params.cardId })
         .then(() => {
-          res.status(200).send({ message: 'card deleted' })
-        })
+          res.status(200).send({ message: 'card deleted' });
+        });
     })
     .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError('Bad request')
-      next(err)
+      if (err.name === 'CastError') throw new BadRequestError('Bad request');
+      next(err);
     })
     .catch(next);
 };
@@ -53,8 +52,8 @@ module.exports.likeCard = (req, res, next) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError('Bad request')
-      next(err)
+      if (err.name === 'CastError') throw new BadRequestError('Bad request');
+      next(err);
     })
     .catch(next);
 };
@@ -68,8 +67,8 @@ module.exports.unlikeCard = (req, res, next) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError('Bad request')
-      next(err)
+      if (err.name === 'CastError') throw new BadRequestError('Bad request');
+      next(err);
     })
     .catch(next);
 };

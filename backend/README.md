@@ -14,5 +14,6 @@ All other directories are optional and may be created by the developer if necess
   
 `npm run dev` — to launch the server with the hot reload feature.  
 
-
+* https://alfons.students.nomoreparties.sbs/ - Live Website
+* https://api.alfons.students.nomoreparties.sbs/ - API
 

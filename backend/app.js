@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser').json();
+const cors = require('cors');
+const { errors, celebrate, Joi } = require('celebrate');
 const helmet = require('helmet');
+const validator = require('validator');
+const mongoose = require('mongoose');
 
 const auth = require('./middlewares/auth');
 const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { errors, celebrate, Joi } = require('celebrate');
 
 const NotFoundError = require('./errors/notFoundError');
-const mongoose = require('mongoose');
 
 require('dotenv').config();
 
@@ -22,8 +24,6 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
 });
 
-var cors = require('cors');
-
 app.use(cors());
 app.options('*', cors());
 
@@ -32,7 +32,7 @@ const validateURL = (value, helpers) => {
     return value;
   }
   return helpers.error('string.uri');
-}
+};
 
 app.use(helmet());
 app.use(bodyParser);
@@ -66,7 +66,7 @@ app.post('/signup', celebrate({
 app.use(auth);
 app.use('/', cardsRouter, usersRouter);
 
-app.get('*', (req, res) => {
+app.get('*', () => {
   throw new NotFoundError('Requested resource not found');
 });
 
