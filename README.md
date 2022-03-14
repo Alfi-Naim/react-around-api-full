@@ -1,19 +1,26 @@
-# Around the U.S. Back End  
-  
-## Directories  
-  
-`/data` — JSON files to temporarily emulate database integration.  
-  
-`/routes` — routing files.  
-  
-All other directories are optional and may be created by the developer if necessary.   
-  
-## Running the Project  
-  
-`npm run start` — to launch the server.  
-  
-`npm run dev` — to launch the server with the hot reload feature.  
+# Around the U.S. 
 
-* https://alfons.students.nomoreparties.sbs/ - Live Website
-* https://api.alfons.students.nomoreparties.sbs/ - API
+## This repository contains:
 
+- The **[backend API](https://alfons.students.nomoreparties.sbs)** of "Around the U.S." with authorization and registration handled by the back-end server.
+- The **[frontend](https://api.alfons.students.nomoreparties.sbs)** React Application which uses this API
+  
+## Project overview:
+
+- Registration and login users
+- Customize your user data (name, about, avatar)
+- Post and remove photos
+- Like photos
+  
+## In this project I've specialized in:
+
+- Node.js
+- Express.js
+- MongoDB
+- Reacts
+- Google cloud
+
+## Links
+    
+- **[Live Website](https://alfons.students.nomoreparties.sbs)**
+- **[Backend API](https://api.alfons.students.nomoreparties.sbs)**
