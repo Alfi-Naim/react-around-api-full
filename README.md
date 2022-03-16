@@ -31,6 +31,7 @@
 
 #### Log-in
 
+<<<<<<< HEAD
 ![login](./frontend/src/images/readme-1.jpg)
 
 #### Main
@@ -52,3 +53,26 @@
 #### Image Preview
 
 ![image preview](./frontend/src/images/readme-6.jpg)
+=======
+![login](./frontend/src/images/readme-1.png)
+
+#### Main
+
+![login](./frontend/src/images/readme-2.png)
+
+#### Update User info
+
+![login](./frontend/src/images/readme-3.png)
+
+#### Update user avatar
+
+![login](./frontend/src/images/readme-4.png)
+
+#### Add Place
+
+![login](./frontend/src/images/readme-5.png)
+
+#### Image Preview
+
+![login](./frontend/src/images/readme-6.png)
+>>>>>>> 59d431782d18dcd07a9bd5d8e4c3bf11885bbc92
