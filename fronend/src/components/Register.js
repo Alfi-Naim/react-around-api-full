@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import failImage from "../images/fail.svg"
-import successImage from "../images/success.svg";
-import InfoTooltip from "./InfoTooltip";
 
-
-
-function Register({ onRegister, isOpen, onClose, isSuccess }) {
+function Register({ onRegister }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -35,12 +30,6 @@ function Register({ onRegister, isOpen, onClose, isSuccess }) {
                 </form>
                 <Link className="auth__link" to="/signin">Already a member? Log in here!</Link>
             </div>
-            <InfoTooltip
-              isOpen={isOpen}
-              onClose={onClose}
-              imageSrc={isSuccess? successImage : failImage}
-              title={isSuccess? "Success! You have now been registered." : "Oops, something went wrong! Please try again."}
-            />
         </>
     );
 }

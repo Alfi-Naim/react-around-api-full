@@ -65,3 +65,6 @@
 @import url(./blocks/popup/__button/_disabled/popup__button_disabled.css);
 @import url(./blocks/popup/__input/_type/popup__input_type_error.css);
 
+@import url(./blocks/content/content.css);
+
+

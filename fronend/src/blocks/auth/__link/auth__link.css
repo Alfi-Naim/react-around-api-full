@@ -6,4 +6,9 @@
     color: white;
     margin-top: 15px;
     text-decoration: none;
+    transition: opacity .3s ease;
+}
+
+.auth__link:hover {
+    opacity: 0.6;
 }

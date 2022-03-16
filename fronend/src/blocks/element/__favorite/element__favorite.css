@@ -1,5 +1,6 @@
 .element__favorite {
     cursor: pointer;
+    transition: opacity .3s ease;
 }
 
 .element__favorite:hover {

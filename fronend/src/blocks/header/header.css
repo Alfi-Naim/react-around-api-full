@@ -6,6 +6,13 @@
     border-bottom: 1px solid  rgba(84, 84, 84, 0.7);
 }
 
+@media screen and (max-width: 420px){
+
+    .header {
+        flex-direction: column;
+    }
+}
+
 @media screen and (max-width: 335px){
 
     .header {

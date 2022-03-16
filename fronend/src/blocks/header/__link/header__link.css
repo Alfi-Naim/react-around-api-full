@@ -5,4 +5,17 @@
     font-style: normal;
     color: white;
     text-decoration: none;
+    transition: opacity .3s ease;
+}
+
+.header__link:hover {
+    opacity: 0.6;
+}
+
+
+@media screen and (max-width: 500px){
+
+    .header__link {
+        margin-bottom: 16px;
+    }
 }

@@ -14,6 +14,7 @@ import Login from "./Login .js";
 import Register from "./Register.js";
 import ProtectedRoute from "./ProtectedRoute"
 import { useHistory } from "react-router";
+import InfoTooltip from "./InfoTooltip.js";
 
 function App() {
 
@@ -29,6 +30,28 @@ function App() {
     const [userEmail, setUserEmail] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
     const history = useHistory();
+
+    useEffect(() => {
+        const closePopupByEscape = (evt) => {
+            if (evt.key === "Escape") {
+                closeAllPopups();
+            }
+        };
+
+        document.addEventListener("keydown", closePopupByEscape);
+        return () => document.removeEventListener("keydown", closePopupByEscape);
+    }, []);
+
+    useEffect(() => {
+        const closePopupByOutsideClick = (evt) => {
+            if (evt.target.classList.contains("popup")) {
+                closeAllPopups();
+            }
+        };
+
+        document.addEventListener("click", closePopupByOutsideClick);
+        return () => document.removeEventListener("keydown", closePopupByOutsideClick);
+    }, []);
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
@@ -138,6 +161,8 @@ function App() {
             })
             .catch((err) => {
                 console.log(err);
+                setInfoPopupSuccess(false);
+                setIsInfoPopupOpen(true);
             });
     }
 
@@ -160,7 +185,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if(loggedIn) {
+        if (loggedIn) {
             // console.log("LoggedIn: " + loggedIn);
             Promise.all([api.loadUserInfo(), api.loadCards()])
                 .then(([userInfo, cardsData]) => {
@@ -180,7 +205,7 @@ function App() {
                         <Switch>
                             <Route path="/signup">
                                 <Header link='/signin' text='Log In' loggedIn={loggedIn} />
-                                <Register isOpen={isInfoPopupOpen} onClose={closeAllPopups} onRegister={handleRegister} isSuccess={infoPopupSuccess}></Register>
+                                <Register onRegister={handleRegister}></Register>
                             </Route>
                             <Route path="/signin">
                                 <Header link='/signup' text='Sign Up' loggedIn={loggedIn} />
@@ -217,7 +242,6 @@ function App() {
                                     onAddPlace={handleAddPlace}
                                 ></AddPlacePopup>
 
-
                                 <ImagePopup
                                     isOpen={isImagePopupOpen}
                                     onClose={closeAllPopups}
@@ -225,6 +249,13 @@ function App() {
                                 />
                             </ProtectedRoute>
                         </Switch>
+                        
+                        <InfoTooltip
+                            isOpen={isInfoPopupOpen} 
+                            onClose={closeAllPopups} 
+                            isSuccess={infoPopupSuccess}
+                  
+                        />
                     </div>
                 </div>
             </div>

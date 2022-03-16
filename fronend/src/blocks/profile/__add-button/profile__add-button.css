@@ -3,13 +3,14 @@
     height: 50px;
     border: 2px solid #FFFFFF;
     box-sizing: border-box;
-    border-radius: 2px;
+    border-radius: 3px;
     background-color: transparent;
     background-image: url('../../../images/add.svg');
     background-repeat: no-repeat;
     background-position: center;
     margin-left: auto;
     cursor: pointer;
+    transition: opacity .3s ease;
 }
 
 .profile__add-button:hover {

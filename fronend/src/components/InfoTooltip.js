@@ -1,9 +1,15 @@
+import failImage from "../images/fail.svg"
+import successImage from "../images/success.svg";
+
 function InfoTooltip({
     isOpen,
     onClose,
-    imageSrc,
-    title
+    isSuccess
 }) {
+
+    let imageSrc = isSuccess ? successImage : failImage
+    let title = isSuccess ? "Success! You have now been registered." : "Oops, something went wrong! Please try again."
+
     return (
         <div className={`popup popup_type_info ${isOpen && "popup_opened"}`}>
             <div className="popup__info-container">

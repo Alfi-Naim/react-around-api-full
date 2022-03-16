@@ -10,3 +10,14 @@
     padding-bottom: 13px;
     margin-bottom: 30px;
 }
+
+.auth__input:-webkit-autofill,
+.auth__input:-webkit-autofill:hover, 
+.auth__input:-webkit-autofill:focus, 
+.auth__input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px black inset;
+}
+
+.auth__input:-webkit-autofill{
+    -webkit-text-fill-color: white;
+}

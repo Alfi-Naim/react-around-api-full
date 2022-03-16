@@ -15,11 +15,11 @@ function Main({
     const currentUser = useContext(CurrentUserContext);
 
     return (
-        <main className="main">
+        <main className="content">
             <section className="profile">
                 <div className="profile__image-container">
                     <img src={pen} alt="pen" className="profile__pen" onClick={onEditAvatarClick} />
-                    <img className="profile__image" src={currentUser.avatar} alt="profile image" />
+                    <img className="profile__image" src={currentUser.avatar} alt="profile" />
                 </div>
                 <div className="profile__info">
                     <h1 className="profile__name">{currentUser.name}</h1>
