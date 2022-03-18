@@ -31,24 +31,24 @@
 
 #### Log-in
 
-![login](./frontend/src/images/readme-1.jpg)
+<img src='./frontend/src/images/readme-1.png' width='700'/>
 
 #### Main
 
-![main](./frontend/src/images/readme-2.jpg)
+<img src='./frontend/src/images/readme-2.png' width='700'/>
 
 #### Update User info
 
-![update user info](./frontend/src/images/readme-3.jpg)
+<img src='./frontend/src/images/readme-3.png' width='700'/>
 
 #### Update user avatar
 
-![update user avatar](./frontend/src/images/readme-4.jpg)
+<img src='./frontend/src/images/readme-4.png' width='700'/>
 
 #### Add Place
 
-![add place](./frontend/src/images/readme-5.jpg)
+<img src='./frontend/src/images/readme-5.png' width='700'/>
 
 #### Image Preview
 
-![image preview](./frontend/src/images/readme-6.jpg)
+<img src='./frontend/src/images/readme-6.png' width='700'/>
