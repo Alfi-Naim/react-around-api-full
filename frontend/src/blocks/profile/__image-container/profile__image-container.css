@@ -1,6 +1,10 @@
 .profile__image-container {
+    width: 120px;
+    height: 120px;
     position: relative;
-    margin-top: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #141E27;
 }
 
 .profile__image-container:hover .profile__pen {
@@ -9,4 +13,4 @@
 
 .profile__image-container:hover .profile__image {
     opacity: 0.2;
-}
+} 

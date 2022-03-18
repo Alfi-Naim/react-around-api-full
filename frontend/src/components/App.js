@@ -24,7 +24,7 @@ function App() {
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
-    const [infoPopupSuccess, setInfoPopupSuccess] = useState(false);
+    const [infoPopupSuccess, setInfoPopupSuccess] = useState(true);
     const [cards, setCards] = useState([]);
     const [currentUser, setCurrentUser] = useState({});
     const [userEmail, setUserEmail] = useState("");
@@ -167,7 +167,7 @@ function App() {
     }
 
     function handleLogout() {
-        localStorage.removeItem('jwt')
+        localStorage.removeItem('jwt');
         setUserEmail("");
         setLoggedIn(false);
     }
