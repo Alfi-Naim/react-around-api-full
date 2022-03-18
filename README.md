@@ -2,8 +2,8 @@
 
 ## This repository contains:
 
-- The **[backend API](https://alfons.students.nomoreparties.sbs)** of "Around the U.S." with authorization and registration handled by the back-end server.
-- The **[frontend](https://api.alfons.students.nomoreparties.sbs)** React Application which uses this API
+- The **[backend API](https://api.alfons.students.nomoreparties.sbs)** of "Around the U.S." with authorization and registration handled by the back-end server.
+- The **[frontend](https://alfons.students.nomoreparties.sbs)** React Application which uses this API
   
 ## Project overview
 
