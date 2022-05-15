@@ -17,7 +17,7 @@
 - Node.js
 - Express.js
 - MongoDB
-- Reacts
+- React
 - Adaptive design
 - Fetch requests
 - Google cloud
