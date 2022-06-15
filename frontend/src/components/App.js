@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
+import { useHistory } from "react-router";
+
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import AddPlacePopup from "./AddPlacePopup.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
-import api from "../utils/api.js";
 import ImagePopup from "./ImagePopup.js";
-import CurrentUserContext from "../contexts/CurrentUserContext.js";
-import * as auth from "../utils/auth";
 import Login from "./Login .js";
 import Register from "./Register.js";
-import ProtectedRoute from "./ProtectedRoute"
-import { useHistory } from "react-router";
 import InfoTooltip from "./InfoTooltip.js";
+import ProtectedRoute from "./ProtectedRoute"
+import CurrentUserContext from "../contexts/CurrentUserContext.js";
+
+import * as auth from "../utils/auth";
+import api from "../utils/api.js";
+
+import failImage from "../images/fail.svg"
+import successImage from "../images/success.svg"
+import loadingImage from "../images/loading.svg";
+import DeletePlacePopup from "./DeletePlacePopup.js";
 
 function App() {
 
@@ -22,13 +29,20 @@ function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+
+    const [isSubmitPending, setIsSubmitPending] = useState(false);
     const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
+    const [infoPopup, setInfoPopup] = useState({ title: "", image: "" });
+
+    const [cardToDelete, setCardToDelete] = useState(null);
     const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
-    const [infoPopupSuccess, setInfoPopupSuccess] = useState(true);
     const [cards, setCards] = useState([]);
+
     const [currentUser, setCurrentUser] = useState({});
     const [userEmail, setUserEmail] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
+
     const history = useHistory();
 
     useEffect(() => {
@@ -37,7 +51,6 @@ function App() {
                 closeAllPopups();
             }
         };
-
         document.addEventListener("keydown", closePopupByEscape);
         return () => document.removeEventListener("keydown", closePopupByEscape);
     }, []);
@@ -48,7 +61,6 @@ function App() {
                 closeAllPopups();
             }
         };
-
         document.addEventListener("click", closePopupByOutsideClick);
         return () => document.removeEventListener("keydown", closePopupByOutsideClick);
     }, []);
@@ -65,10 +77,14 @@ function App() {
         setIsAddPlacePopupOpen(true);
     }
 
+    function handleDeleteCardClick(card) {
+        setCardToDelete(card);
+        setIsDeletePopupOpen(true);
+    }
+
     function handleCardClick(name, link) {
         setSelectedCard({
-            name: name,
-            link: link
+            name: name, link: link
         });
         setIsImagePopupOpen(true);
     }
@@ -82,36 +98,47 @@ function App() {
         });
     }
 
-    function handleCardDelete(card) {
-        api.deleteCard(card._id).then(() => {
-            setCards(cards.filter((newCard) => newCard._id !== card._id))
-        }).catch((error) => {
-            console.log(error);
-        });
+    function handleCardDelete() {
+        setIsSubmitPending(true);
+        if (cardToDelete != null) {
+            api.deleteCard(cardToDelete._id).then(() => {
+                setCards(cards.filter((newCard) => newCard._id !== cardToDelete._id));
+                closeAllPopups();
+                setIsSubmitPending(false);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 
     function handleUpdateUser({ name, about }) {
+        setIsSubmitPending(true);
         api.setUserInfo({ name, about }).then((res) => {
             setCurrentUser(res);
             closeAllPopups();
+            setIsSubmitPending(false);
         }).catch((error) => {
             console.log(error);
         });
     }
 
     function handleUpdateAvatar(avatar) {
+        setIsSubmitPending(true);
         api.setUserAvatar({ link: avatar }).then((res) => {
             setCurrentUser(res);
             closeAllPopups();
+            setIsSubmitPending(false);
         }).catch((error) => {
             console.log(error);
         });
     }
 
     function handleAddPlace({ name, link }) {
+        setIsSubmitPending(true);
         api.addCard({ name, link }).then((newCard) => {
             setCards([newCard, ...cards]);
             closeAllPopups();
+            setIsSubmitPending(false);
         }).catch((error) => {
             console.log(error);
         });
@@ -122,7 +149,6 @@ function App() {
             const jwt = localStorage.getItem('jwt');
             auth.checkToken(jwt).then((res) => {
                 if (res) {
-                    // console.log(res);
                     setLoggedIn(true);
                     setUserEmail(res.email);
                     history.push("/");
@@ -134,34 +160,32 @@ function App() {
     }
 
     function handleRegister({ email, password }) {
-        // console.log("Register : " + email + " , " + password);
+        setInfoPopup({ title: 'Signing up...', image: loadingImage });
+        setIsInfoPopupOpen(true);
         auth.register({ email, password })
             .then((res) => {
                 if (res) {
                     history.push('/signin');
-                    setInfoPopupSuccess(true);
+                    setInfoPopup({ title: 'Successfully Registered!', image: successImage });
                 } else {
-                    setInfoPopupSuccess(false);
+                    setInfoPopup({ title: 'Oops, something went wrong! please try again', image: failImage });
                 }
-            }).catch((err) => {
-                console.log(err);
-                setInfoPopupSuccess(false);
-            }).finally(() => {
-                setIsInfoPopupOpen(true);
+            }).catch(() => {
+                setInfoPopup({ title: 'Oops, something went wrong! please try again', image: failImage });
             });
     }
 
     function handleLogin({ email, password }) {
-        // console.log("Login : " + email + " , " + password);
+        setInfoPopup({ title: 'Signing in...', image: loadingImage });
+        setIsInfoPopupOpen(true);
         auth.authorize({ email, password })
             .then((res) => {
-                // console.log(res);
+                closeAllPopups();
                 localStorage.setItem("jwt", res.token)
                 handleTokenCheck();
             })
-            .catch((err) => {
-                console.log(err);
-                setInfoPopupSuccess(false);
+            .catch(() => {
+                setInfoPopup({ title: 'Oops, something went wrong! please try again', image: failImage });
                 setIsInfoPopupOpen(true);
             });
     }
@@ -178,6 +202,8 @@ function App() {
         setIsAddPlacePopupOpen(false);
         setIsImagePopupOpen(false);
         setIsInfoPopupOpen(false);
+        setIsDeletePopupOpen(false);
+        setInfoPopup({ title: '', image: '' });
     }
 
     useEffect(() => {
@@ -186,7 +212,6 @@ function App() {
 
     useEffect(() => {
         if (loggedIn) {
-            // console.log("LoggedIn: " + loggedIn);
             Promise.all([api.loadUserInfo(), api.loadCards()])
                 .then(([userInfo, cardsData]) => {
                     setCurrentUser(userInfo);
@@ -221,7 +246,7 @@ function App() {
                                     onAddPlaceClick={handleAddPlaceClick}
                                     onCardClick={handleCardClick}
                                     onCardLike={handleCardLike}
-                                    onCardDelete={handleCardDelete}
+                                    onCardDelete={handleDeleteCardClick}
                                     cards={cards} />
 
                                 <Footer />
@@ -229,32 +254,41 @@ function App() {
                                 <EditAvatarPopup
                                     isOpen={isEditAvatarPopupOpen}
                                     onClose={closeAllPopups}
-                                    onUpdateAvatar={handleUpdateAvatar} />
+                                    onUpdateAvatar={handleUpdateAvatar}
+                                    isPending={isSubmitPending} />
 
                                 <EditProfilePopup
                                     isOpen={isEditProfilePopupOpen}
                                     onClose={closeAllPopups}
-                                    onUpdateUser={handleUpdateUser} />
+                                    onUpdateUser={handleUpdateUser}
+                                    isPending={isSubmitPending} />
 
                                 <AddPlacePopup
                                     isOpen={isAddPlacePopupOpen}
                                     onClose={closeAllPopups}
                                     onAddPlace={handleAddPlace}
-                                ></AddPlacePopup>
+                                    isPending={isSubmitPending} />
 
                                 <ImagePopup
                                     isOpen={isImagePopupOpen}
                                     onClose={closeAllPopups}
-                                    selectedCard={selectedCard}
-                                />
+                                    selectedCard={selectedCard} />
+
+                                <DeletePlacePopup
+                                    isOpen={isDeletePopupOpen}
+                                    onClose={closeAllPopups}
+                                    onDeletePlace={handleCardDelete}
+                                    isPending={isSubmitPending}
+                                    card={cardToDelete} />
+
                             </ProtectedRoute>
                         </Switch>
-                        
+
                         <InfoTooltip
-                            isOpen={isInfoPopupOpen} 
-                            onClose={closeAllPopups} 
-                            isSuccess={infoPopupSuccess}
-                  
+                            isOpen={isInfoPopupOpen}
+                            onClose={closeAllPopups}
+                            title={infoPopup.title}
+                            image={infoPopup.image}
                         />
                     </div>
                 </div>

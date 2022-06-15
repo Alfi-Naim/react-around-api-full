@@ -4,7 +4,8 @@ import PopupWithForm from "./PopupWithForm";
 function AddPlacePopup({
     isOpen,
     onClose,
-    onAddPlace
+    onAddPlace,
+    isPending
 }) {
 
     const [name, setName] = useState("");
@@ -38,7 +39,7 @@ function AddPlacePopup({
             title="New place"
             isOpen={isOpen}
             onClose={onClose}
-            submitTitle="Create"
+            submitTitle={isPending? "Creating..." : "Create" }
             onSubmit={handleSubmit}>
 
             <label className="popup__form-field">

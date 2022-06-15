@@ -1,16 +1,15 @@
-// import React from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({
     isOpen,
     onClose,
-    onUpdateAvatar
+    onUpdateAvatar,
+    isPending
 }) {
 
     const currentUser = React.useContext(CurrentUserContext);
-
 
     const [avatar, setAvatar] = useState("");
 
@@ -23,7 +22,7 @@ function EditAvatarPopup({
         onUpdateAvatar(avatar);
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         setAvatar(currentUser.avatar);
     }, [currentUser, isOpen]);
 
@@ -33,8 +32,8 @@ function EditAvatarPopup({
             title="Change profile picture"
             isOpen={isOpen}
             onClose={onClose}
-            submitTitle="Save"
-            onSubmit={handleSubmit}>
+            submitTitle={isPending? "Saving..." : "Save" }
+            onSubmit={handleSubmit} >
 
             <label className="popup__form-field">
                 <input className="popup__input" type="url" id="avatar-url-input" name="link" placeholder="Image link" value={avatar || ""} onChange={handleAvatarChange}

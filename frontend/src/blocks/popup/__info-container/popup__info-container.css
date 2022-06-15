@@ -18,3 +18,8 @@
         margin: auto;
     }
 }
+
+.popup__info-image {
+    min-height: 120px;
+    min-width: 120px
+}

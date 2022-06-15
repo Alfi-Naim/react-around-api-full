@@ -5,7 +5,8 @@ import PopupWithForm from "./PopupWithForm";
 function EditProfilePopup({
     isOpen,
     onClose,
-    onUpdateUser
+    onUpdateUser,
+    isPending
 }) {
 
     const [name, setName] = useState("");
@@ -40,7 +41,7 @@ function EditProfilePopup({
             isOpen={isOpen}
             onClose={onClose}
             onSubmit={handleSubmit}
-            submitTitle="Save">
+            submitTitle={isPending? "Saving..." : "Save" }>
 
             <label className="popup__form-field">
                 <input className="popup__input" type="text" id="name-input" name="name" placeholder="Name"
