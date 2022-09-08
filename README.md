@@ -2,8 +2,8 @@
 
 ## This repository contains:
 
-- The **[backend API](https://api.alfi-usa.students.nomoreparties.sbs)** of "Around the U.S." with authorization and registration handled by the back-end server.
-- The **[frontend](https://alfi-usa.students.nomoreparties.sbs)** React Application which uses this API
+- The **[backend API](https://api.naim-usa.students.nomoredomainssbs.ru)** of "Around the U.S." with authorization and registration handled by the back-end server.
+- The **[frontend](https://naim-usa.students.nomoredomainssbs.ru)** React Application which uses this API
   
 ## Project overview
 
@@ -24,8 +24,8 @@
 
 ## Links
     
-- **[Live Website](https://alfi-usa.students.nomoreparties.sbs)**
-- **[Backend API](https://api.alfi-usa.students.nomoreparties.sbs)**
+- **[Live Website](https://naim-usa.students.nomoredomainssbs.ru)**
+- **[Backend API](https://api.naim-usa.students.nomoredomainssbs.ru)**
 
 ## Screenshots
 
