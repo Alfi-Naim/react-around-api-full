@@ -90,7 +90,7 @@ class Api {
 const api = new Api({
     // baseUrl: 'http://localhost:3001',
     // baseUrl: 'https://api.alfons.students.nomoreparties.sbs',
-    baseUrl: 'https://api.alfi-usa.students.nomoreparties.sbs',
+    baseUrl: 'https://api.naim-usa.students.nomoredomainssbs.ru',
 });
 
 export default api;
