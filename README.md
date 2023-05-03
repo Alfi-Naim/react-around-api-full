@@ -1,9 +1,4 @@
 # Around the U.S. 
-
-## This repository contains:
-
-- The **[backend API](https://api.naim-usa.students.nomoredomainssbs.ru)** of "Around the U.S." with authorization and registration handled by the back-end server.
-- The **[frontend](https://naim-usa.students.nomoredomainssbs.ru)** React Application which uses this API
   
 ## Project overview
 
@@ -21,11 +16,6 @@
 - Adaptive design
 - Fetch requests
 - Google cloud
-
-## Links
-    
-- **[Live Website](https://naim-usa.students.nomoredomainssbs.ru)**
-- **[Backend API](https://api.naim-usa.students.nomoredomainssbs.ru)**
 
 ## Screenshots
 
